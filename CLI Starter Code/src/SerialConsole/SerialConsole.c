@@ -146,14 +146,28 @@ void setLogLevel(enum eDebugLogLevels debugLevel)
     currentDebugLevel = debugLevel;
 }
 
+/**************************************************************************/ 
 /**
- * @brief Logs a message at the specified debug level.
- */
+ * @fn			void LogMessage(enum eDebugLogLevels level, const char *format, ...)
+ * @brief		Logs a formatted message to the UART console based on the specified debug level.
+ * @details		If the given message level is greater than or equal to the currently set log level,
+ *				the message is formatted and printed to the serial terminal using UART.
+ *				Supports variable argument formatting (like printf).
+ *
+ * @param[in]	level   The debug severity level of the message (e.g., LOG_INFO_LVL, LOG_ERROR_LVL).
+ * @param[in]	format  Format string (same as printf) for the log message.
+ * @param[in]	...     Variable arguments corresponding to the format string.
+ *
+ * @return		None
+ *
+ * @note		Messages with a level lower than the current debug log level are not printed.
+ *****************************************************************************/
+
 void LogMessage(enum eDebugLogLevels level, const char *format, ...)
 {
     // Todo: Implement Debug Logger
 	// More detailed descriptions are in header file
-	
+
 	if (level < currentDebugLevel || level >= N_DEBUG_LEVELS)
     {
         return;

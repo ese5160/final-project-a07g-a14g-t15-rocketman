@@ -153,7 +153,6 @@ Relation to cbufRx: It calls a function like circular_buf_put(cbufRx, latestRx);
 
 Purpose: Ensures every character received from the UART is captured in the circular buffer. Makes data available for higher-level application logic (e.g., command parser).
 
-
 2. usart_write_callback() – Character Sent (TX)
 
 Triggered when: The USART finishes transmitting a character.
@@ -164,14 +163,9 @@ Relation to cbufTx: It calls something like circular_buf_get(cbufTx, &latestTx);
 
 Purpose: Maintains a steady stream of outgoing data. Allows asynchronous, non-blocking UART transmission using buffer queuing.
 
-
-
 **Q7] Draw a diagram that explains the program flow for UART receive – starting with the user typing a character and ending with how that characters ends up in the circular buffer “cbufRx”. Please make reference to specific functions in the starter code.**
 
-
-
 **Q8] Draw a diagram that explains the program flow for the UART transmission – starting from a string added by the program to the circular buffer “cbufTx” and ending on characters being shown on the screen of a PC (On Teraterm, for example). Please make reference to specific functions in the starter code.**
-
 
 **Q9] What is done on the function “startStasks()” in main.c? How many threads are started?**
 
@@ -187,3 +181,10 @@ The `StartTasks()` function **initializes application-level FreeRTOS tasks** —
 
 ![alt text](Images/A07G/A07G_S10.png)
 
+
+### **3. Debug Logger Module**
+
+Made necessary changes in the code. (in SerialConsole.c)
+
+
+![alt text](Images/A07G_S11.png)

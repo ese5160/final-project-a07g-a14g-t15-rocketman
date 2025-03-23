@@ -181,10 +181,35 @@ The `StartTasks()` function **initializes application-level FreeRTOS tasks** —
 
 ![alt text](Images/A07G/A07G_S10.png)
 
-
 ### **3. Debug Logger Module**
 
 Made necessary changes in the code. (in SerialConsole.c)
 
-
 ![alt text](Images/A07G_S11.png)
+
+### 4. Wiretap that Convo!
+
+**Q1] What nets must you attach the logic analyzer to? Check how the firmware sets up the UART in SerialConsole.c**
+
+![alt text](Images/A07G/A07G_S12.png)
+
+Based on the UART configuration in `SerialConsole.c`, the firmware initializes **SERCOM4** as the UART peripheral. It uses:
+
+* `config_usart.pinmux_pad0 = EDBG_CDC_SERCOM_PINMUX_PAD0`
+* `config_usart.pinmux_pad1 = EDBG_CDC_SERCOM_PINMUX_PAD1`
+
+These macros map to:
+
+* `PAD0 = PA08` → **UART TX (transmit from SAMW25 to PC)**
+* `PAD1 = PA09` → **UART RX (receive from PC to SAMW25)**
+
+**Q2] Where on the circuit board can you attach / solder to?**
+
+![alt text](Images/A07G/A07G_S13.png)
+
+
+
+| Wire Color | Pin on SAMW25 Board | Signal                 | Purpose                        |
+| ---------- | ------------------- | ---------------------- | ------------------------------ |
+| Yellow     | EXT1 Pin 11 (PA08)  | UART TX (SERCOM4 PAD0) | Captures transmitted UART data |
+| Black      | EXT1 Pin 2 (GND)    | Ground                 | Connect to GND                 |

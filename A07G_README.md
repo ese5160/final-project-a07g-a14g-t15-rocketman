@@ -235,4 +235,14 @@ Therefore, you must attach the logic analyzer to:
 ## [.sal file of A07_T15](Images/A07G/A07G_T15.sal)
 
 ### 5. Complete the CLI
+### 6. Add CLI Commands
 
+Updated Code with necessary doxygen comments and attaching necessary screenshots here
+
+![alt text](Images/A07G/A07G_S18.png)
+![alt text](Images/A07G/A07G_S19.png)
+![alt text](Images/A07G/A07G_S20.png)
+
+Implementation Video Link
+
+#### https://drive.google.com/file/d/1NL8RsHWhn5IXrZU_3po_3iivr9aCboyq/view?usp=sharing

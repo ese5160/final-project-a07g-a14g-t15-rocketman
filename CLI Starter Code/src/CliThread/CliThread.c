@@ -11,6 +11,9 @@
  ******************************************************************************/
 #include "CliThread.h"
 
+
+#define FIRMWARE_VERSION "0.0.1"
+
 /******************************************************************************
  * Defines
  ******************************************************************************/
@@ -36,6 +39,22 @@ static const CLI_Command_Definition_t xResetCommand =
         (const pdCOMMAND_LINE_CALLBACK)CLI_ResetDevice,
         0};
 
+static const CLI_Command_Definition_t xVersionCommand =
+{
+    "version",
+    "version: Prints the firmware version.\r\n",
+    CLI_PrintVersion,
+    0
+};
+
+static const CLI_Command_Definition_t xTicksCommand =
+{
+    "ticks",
+    "ticks: Prints the number of RTOS ticks since the system booted.\r\n",
+    CLI_PrintTicks,
+    0
+};
+
 /******************************************************************************
  * Forward Declarations
  ******************************************************************************/
@@ -54,6 +73,12 @@ void vCommandConsoleTask(void *pvParameters)
 
     FreeRTOS_CLIRegisterCommand(&xClearScreen);
     FreeRTOS_CLIRegisterCommand(&xResetCommand);
+
+    FreeRTOS_CLIRegisterCommand(&xVersionCommand); // Register the version command Final Part 6
+
+    FreeRTOS_CLIRegisterCommand(&xTicksCommand); // Register the ticks command Final Part 6
+
+
 
     uint8_t cRxedChar[2], cInputIndex = 0;
     BaseType_t xMoreDataToFollow;
@@ -227,6 +252,34 @@ static void FreeRTOS_read(char *character)
 /******************************************************************************
  * CLI Functions - Define here
  ******************************************************************************/
+
+/**
+ * @brief CLI command to print the firmware version.
+ * @param pcWriteBuffer Buffer to write output to.
+ * @param xWriteBufferLen Size of the output buffer.
+ * @param pcCommandString Not used.
+ * @return pdFALSE since no further output is expected.
+ */
+BaseType_t CLI_PrintVersion(int8_t *pcWriteBuffer, size_t xWriteBufferLen, const int8_t *pcCommandString)
+{
+    snprintf((char *)pcWriteBuffer, xWriteBufferLen, "Firmware Version: %s\r\n", FIRMWARE_VERSION);
+    return pdFALSE;
+}
+
+// TICKS COMMAND Part 6
+/**
+ * @brief CLI command to print the number of ticks since the scheduler started.
+ * @param pcWriteBuffer Buffer to write output to.
+ * @param xWriteBufferLen Size of the output buffer.
+ * @param pcCommandString Not used.
+ * @return pdFALSE since no further output is expected.
+ */
+BaseType_t CLI_PrintTicks(int8_t *pcWriteBuffer, size_t xWriteBufferLen, const int8_t *pcCommandString)
+{
+    TickType_t ticks = xTaskGetTickCount();
+    snprintf((char *)pcWriteBuffer, xWriteBufferLen, "Ticks since boot: %lu\r\n", (unsigned long)ticks);
+    return pdFALSE;
+}
 
 // THIS COMMAND USES vt100 TERMINAL COMMANDS TO CLEAR THE SCREEN ON A TERMINAL PROGRAM LIKE TERA TERM
 // SEE http://www.csie.ntu.edu.tw/~r92094/c++/VT100.html for more info

@@ -125,5 +125,6 @@ enum eDebugLogLevels getLogLevel(void);
 * Local Functions
 ******************************************************************************/
 
+extern SemaphoreHandle_t xRxSemaphore;
 
 #endif /* SERIAL_CONSOLE_H */

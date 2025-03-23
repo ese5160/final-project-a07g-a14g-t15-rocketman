@@ -34,6 +34,7 @@
 #define RX_BUFFER_SIZE 512 ///< Size of character buffer for RX, in bytes
 #define TX_BUFFER_SIZE 512 ///< Size of character buffers for TX, in bytes
 
+
 /******************************************************************************
  * Structures and Enumerations
  ******************************************************************************/
@@ -63,6 +64,14 @@ char rxCharacterBuffer[RX_BUFFER_SIZE]; 			   ///< Buffer to store received char
 char txCharacterBuffer[TX_BUFFER_SIZE]; 			   ///< Buffer to store characters to be sent
 enum eDebugLogLevels currentDebugLevel = LOG_INFO_LVL; ///< Default debug level
 
+
+/** 
+ * @brief Binary semaphore to notify the CLI thread that a new UART character is available.
+ * @details Given by the USART RX callback and taken by the CLI thread in FreeRTOS_read().
+ */
+
+SemaphoreHandle_t xRxSemaphore = NULL; ///< Semaphore to notify CLI thread of RX character Part 5: Completing CLI
+
 /******************************************************************************
  * Global Functions
  ******************************************************************************/
@@ -75,6 +84,9 @@ void InitializeSerialConsole(void)
     // Initialize circular buffers for RX and TX
 	cbufRx = circular_buf_init((uint8_t *)rxCharacterBuffer, RX_BUFFER_SIZE);
     cbufTx = circular_buf_init((uint8_t *)txCharacterBuffer, TX_BUFFER_SIZE);
+
+    xRxSemaphore = xSemaphoreCreateBinary();
+    configASSERT(xRxSemaphore != NULL);
 
     // Configure USART and Callbacks
 	configure_usart();
@@ -242,14 +254,35 @@ static void configure_usart_callbacks(void)
 
 /**************************************************************************/ 
 /**
- * @fn			void usart_read_callback(struct usart_module *const usart_module)
- * @brief		Callback called when the system finishes receives all the bytes requested from a UART read job
-		 Students to fill out. Please note that the code here is dummy code. It is only used to show you how some functions work.
- * @note
+ * @fn      void usart_read_callback(struct usart_module *const usart_module)
+ * @brief   Callback called when the UART has received a character.
+ * @details This function is triggered by the SERCOM hardware when a single character is received via UART.
+ *          The character is added to the RX circular buffer, and a FreeRTOS binary semaphore is given 
+ *          to notify the CLI thread that a new character is available.
+ *          Finally, the next UART read job is started to continuously receive characters.
+ *
+ * @param[in] usart_module Pointer to the USART module structure (provided by ASF).
  *****************************************************************************/
+
 void usart_read_callback(struct usart_module *const usart_module)
 {
 	// ToDo: Complete this function 
+
+    // Notify CLI thread that a char is ready (Part 5: Completing CLI)
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+
+    // Add received char to buffer
+    circular_buf_put(cbufRx, latestRx);
+
+    // Notify CLI thread that a char is ready
+    xSemaphoreGiveFromISR(xRxSemaphore, &xHigherPriorityTaskWoken);
+
+    // Kick off next read
+    usart_read_buffer_job(&usart_instance, (uint8_t *)&latestRx, 1);
+
+    // Yield if a higher-priority task was woken
+    portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+
 }
 
 /**************************************************************************/ 

@@ -207,17 +207,21 @@ void vCommandConsoleTask(void *pvParameters)
     }
 }
 
-/**************************************************************************/ /**
- * @fn			void FreeRTOS_read(char* character)
- * @brief		STUDENTS TO COMPLETE. This function block the thread unless we received a character. How can we do this?
-                 There are multiple solutions! Check all the inter-thread communications available! See https://www.freertos.org/a00113.html
- * @details		STUDENTS TO COMPLETE.
- * @note
+/**************************************************************************/
+/**
+ * @fn      static void FreeRTOS_read(char* character)
+ * @brief   Blocks until a character is available from UART, then stores it in *character.
+ * @details Waits on the binary semaphore (given in USART callback). Once the
+ *          semaphore is received, fetches a character from the RX circular buffer.
  *****************************************************************************/
 static void FreeRTOS_read(char *character)
 {
-    // ToDo: Complete this function
-    vTaskSuspend(NULL); // We suspend ourselves. Please remove this when doing your code
+    // Wait indefinitely for the semaphore (given by usart_read_callback)
+    if (xSemaphoreTake(xRxSemaphore, portMAX_DELAY) == pdTRUE)
+    {
+        // Read the character from the RX buffer
+        SerialConsoleReadCharacter((uint8_t *)character);
+    }
 }
 
 /******************************************************************************

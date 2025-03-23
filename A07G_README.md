@@ -193,23 +193,46 @@ Made necessary changes in the code. (in SerialConsole.c)
 
 ![alt text](Images/A07G/A07G_S12.png)
 
-Based on the UART configuration in `SerialConsole.c`, the firmware initializes **SERCOM4** as the UART peripheral. It uses:
+The firmware configures **SERCOM4** as the UART module for communication between the SAMW25 and the EDBG debugger chip.
 
-* `config_usart.pinmux_pad0 = EDBG_CDC_SERCOM_PINMUX_PAD0`
-* `config_usart.pinmux_pad1 = EDBG_CDC_SERCOM_PINMUX_PAD1`
+From the `samw25_xplained_pro.h` file:
 
-These macros map to:
+#define EDBG_CDC_MODULE SERCOM4
+#define EDBG_CDC_SERCOM_PINMUX_PAD2 PINMUX_PB10D_SERCOM4_PAD2  // TX
+#define EDBG_CDC_SERCOM_PINMUX_PAD3 PINMUX_PB11D_SERCOM4_PAD3  // RX
 
-* `PAD0 = PA08` → **UART TX (transmit from SAMW25 to PC)**
-* `PAD1 = PA09` → **UART RX (receive from PC to SAMW25)**
+Therefore, you must attach the logic analyzer to:
+
+* **PB10** → UART TX (data from SAMW25 to PC)
+* **PB11** → UART RX
+* **GND** → A ground pin on the board
 
 **Q2] Where on the circuit board can you attach / solder to?**
 
-![alt text](Images/A07G/A07G_S13.png)
-
-
+![alt text](Images/A07G/A07G_S14.png)
 
 | Wire Color | Pin on SAMW25 Board | Signal                 | Purpose                        |
 | ---------- | ------------------- | ---------------------- | ------------------------------ |
-| Yellow     | EXT1 Pin 11 (PA08)  | UART TX (SERCOM4 PAD0) | Captures transmitted UART data |
-| Black      | EXT1 Pin 2 (GND)    | Ground                 | Connect to GND                 |
+| Yellow     | PB10                | UART TX (SERCOM4 PAD2) | Captures transmitted UART data |
+| Black      | GND                 | Ground                 | Connect to GND                 |
+
+
+**Q3] What are critical settings for the logic analyzer?**
+
+![alt text](Images/A07G/A07G_S15.png)
+
+
+## Hardware Setting Picture
+
+![alt text](Images/A07G/A07G_S16.png)
+
+## Logic2 Message Capture Screenshot
+
+![alt text](Images/A07G/A07G_S17.png)
+
+## Capture File
+
+## [.sal file of A07_T15](Images/A07G/A07G_T15.sal)
+
+### 5. Complete the CLI
+

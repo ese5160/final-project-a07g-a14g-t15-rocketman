@@ -59,6 +59,12 @@ static const CLI_Command_Definition_t xTicksCommand =
  * Forward Declarations
  ******************************************************************************/
 static void FreeRTOS_read(char *character);
+
+
+// CLI SPECIFIC COMMANDS
+BaseType_t CLI_PrintVersion(int8_t *pcWriteBuffer, size_t xWriteBufferLen, const int8_t *pcCommandString);
+BaseType_t CLI_PrintTicks(int8_t *pcWriteBuffer, size_t xWriteBufferLen, const int8_t *pcCommandString);
+
 /******************************************************************************
  * Callback Functions
  ******************************************************************************/

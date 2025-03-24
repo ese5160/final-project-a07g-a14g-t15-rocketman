@@ -6,6 +6,17 @@
 * GitHub Repository URL: https://github.com/ese5160/final-project-a07g-a14g-t15-rocketman#
 * Description of test hardware: (development boards, sensors, actuators, laptop + OS, etc)
 
+
+### **1. Software Architecture
+
+![alt text](Images/A07G/A07G_S21.jpg)
+
+![alt text](Images/A07G/A07G_S22.jpg)
+
+![alt text](Images/A07G/A07G_S23.jpg)
+
+![alt text](Images/A07G/A07G_S24.jpg)
+
 ### **2. Understanding the Starter Code**
 
 **Q1. What does “InitializeSerialConsole()” do? In said function, what is “cbufRx” and “cbufTx”? What type of data structure is it?**

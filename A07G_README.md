@@ -9,6 +9,8 @@
 
 ### **1. Software Architecture
 
+![alt text](Images/A07G/A07G_S25.png)
+
 ![alt text](Images/A07G/A07G_S21.jpg)
 
 ![alt text](Images/A07G/A07G_S22.jpg)

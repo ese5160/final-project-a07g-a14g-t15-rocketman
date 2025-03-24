@@ -9,14 +9,20 @@
 
 ### **1. Software Architecture
 
+
+#### System Software Architecture
 ![alt text](Images/A07G/A07G_S25.png)
 
+#### Power Monitoring Task
 ![alt text](Images/A07G/A07G_S21.jpg)
 
+#### Communication Task
 ![alt text](Images/A07G/A07G_S22.jpg)
 
+#### Actuator Control Task
 ![alt text](Images/A07G/A07G_S23.jpg)
 
+#### System Control Task
 ![alt text](Images/A07G/A07G_S24.jpg)
 
 ### **2. Understanding the Starter Code**
@@ -178,7 +184,11 @@ Purpose: Maintains a steady stream of outgoing data. Allows asynchronous, non-bl
 
 **Q7] Draw a diagram that explains the program flow for UART receive – starting with the user typing a character and ending with how that characters ends up in the circular buffer “cbufRx”. Please make reference to specific functions in the starter code.**
 
+
+
 **Q8] Draw a diagram that explains the program flow for the UART transmission – starting from a string added by the program to the circular buffer “cbufTx” and ending on characters being shown on the screen of a PC (On Teraterm, for example). Please make reference to specific functions in the starter code.**
+
+
 
 **Q9] What is done on the function “startStasks()” in main.c? How many threads are started?**
 
@@ -198,7 +208,7 @@ The `StartTasks()` function **initializes application-level FreeRTOS tasks** —
 
 Made necessary changes in the code. (in SerialConsole.c)
 
-![alt text](Images/A07G_S11.png)
+![alt text](Images/A07G/A07G_S11.png)
 
 ### 4. Wiretap that Convo!
 

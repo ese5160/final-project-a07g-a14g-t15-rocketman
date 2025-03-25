@@ -6,23 +6,64 @@
 * GitHub Repository URL: https://github.com/ese5160/final-project-a07g-a14g-t15-rocketman#
 * Description of test hardware: (development boards, sensors, actuators, laptop + OS, etc)
 
-
 ### **1. Software Architecture**
 
+## Hardware Requirements Specification (HRS)
+
+[](https://github.com/ese5160/a00g-devices-designs-diagrams-s25-rocketman#5-hardware-requirements-specification-hrs)
+
+* **HRS 01:** The project shall be based on a Microchip SAMW25 microcontroller with integrated Wi-Fi, running at a minimum clock frequency of 32 MHz.
+* **HRS 02:** An triple-channel current sensor shall be used to monitor the individual current/voltage draw of each actuator (Antenna, LED, DC fan) via the I²C bus.
+* **HRS 03:** A fuel gauge breakout shall be included to measure battery State of Charge (SoC) and estimate run time remaining, interfacing via I²C.
+* **HRS 04:** Three actuators (Antenna, LED, DC fan) shall each be powered through a relay (or suitable driver) under the control of the SAMW25’s GPIO pins.
+* **HRS 05:** The LED load shall be rated at 3.3–5 V DC and must be able to be switched on/off for demonstration of low-power consumption control.
+* **HRS 06:** The DC fan shall operate at 3.3–5 V DC with a maximum current draw of 200 mA, switched on/off for cooling or load demonstration.
+* **HRS 07:** The system’s battery shall be a single-cell Li-ion (3.7 V nominal, 4.2 V max), providing power for the SAMW25, sensors, and actuators.
+* **HRS 08:** A stable 3.3 V rail shall be maintained (via regulator or buck-boost) for the SAMW25 and related ICs, considering battery voltage variations (3.0–4.2 V).
+* **HRS 09:** The system shall support I²C communication at up to 400 kHz to ensure timely sensor data acquisition from both Current sensor and Battery monitoring modules.
+* **HRS 10:** Physical connectors or headers shall be provided for easy access to I²C lines and power lines during development and testing.
+
+## Software Requirements Specification (SRS)
+
+1. **SRS 01**
+   The system shall run under FreeRTOS with three tasks.
+2. **SRS 02**
+   The current sensors shall be read at a configurable interval (default 1 second, ± 100 ms tolerance), capturing per-actuator current and bus voltage.
+3. **SRS 03**
+   The battery fuel gauge shall be read at least once every 2 seconds to obtain SoC and estimated run time, with ±200 ms tolerance.
+4. **SRS 04**
+   The Wi-Fi Dashboard shall display real-time data, including:
+   * Current draw per actuator (mA)
+   * Battery SoC (%) and run time estimate (minutes)
+   * Manual toggle switches for the Antenna, LED, and Fan
+   * System alerts (e.g., “Battery Low”)
+5. **SRS 05**
+   The system shall allow manual override commands from the dashboard to immediately switch an actuator on/off, overriding the automated load-balancing logic.
+6. **SRS 06**
+   The firmware shall handle actuator state changes non-blocking, ensuring critical tasks (sensor polling) are not delayed by relay switching.
+7. **SRS 07**
+   The system shall display an alert on the Wi-Fi dashboard when the battery temperature exceeds 45°C, indicating potential thermal risks.
+8. **SRS 08**
+   The firmware shall support OTA (Over-the-Air) updates for future improvements, with safeguards to prevent incomplete updates from bricking the system.
 
 #### System Software Architecture
+
 ![alt text](Images/A07G/A07G_S25.png)
 
 #### Power Monitoring Task
+
 ![alt text](Images/A07G/A07G_S21.jpg)
 
 #### Communication Task
+
 ![alt text](Images/A07G/A07G_S22.jpg)
 
 #### Actuator Control Task
+
 ![alt text](Images/A07G/A07G_S23.jpg)
 
 #### System Control Task
+
 ![alt text](Images/A07G/A07G_S24.jpg)
 
 ### **2. Understanding the Starter Code**
@@ -239,11 +280,9 @@ Therefore, you must attach the logic analyzer to:
 | Yellow     | PB10                | UART TX (SERCOM4 PAD2) | Captures transmitted UART data |
 | Black      | GND                 | Ground                 | Connect to GND                 |
 
-
 **Q3] What are critical settings for the logic analyzer?**
 
 ![alt text](Images/A07G/A07G_S15.png)
-
 
 ## Hardware Setting Picture
 
@@ -258,6 +297,7 @@ Therefore, you must attach the logic analyzer to:
 ## [.sal file of A07_T15](Images/A07G/A07G_T15.sal)
 
 ### 5. Complete the CLI
+
 ### 6. Add CLI Commands
 
 Updated Code with necessary doxygen comments and attaching necessary screenshots here

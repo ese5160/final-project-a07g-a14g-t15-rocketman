@@ -7,7 +7,7 @@
 * Description of test hardware: (development boards, sensors, actuators, laptop + OS, etc)
 
 
-### **1. Software Architecture
+### **1. Software Architecture**
 
 
 #### System Software Architecture

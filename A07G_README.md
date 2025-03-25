@@ -68,7 +68,7 @@
 
 ### **2. Understanding the Starter Code**
 
-**Q1. What does “InitializeSerialConsole()” do? In said function, what is “cbufRx” and “cbufTx”? What type of data structure is it?**
+#### **Q1. What does “InitializeSerialConsole()” do? In said function, what is “cbufRx” and “cbufTx”? What type of data structure is it?**
 
 ![alt text](Images/A07G/A07G_S1.png)
 
@@ -133,7 +133,7 @@ It performs the following actions:
 
 They are  **pointers to a circular buffer structure** . These buffers allow **first-in, first-out (FIFO)** behavior, which is ideal for serial communication where data must be processed in the order it is received or transmitted.
 
- ***Q2] How are “cbufRx” and “cbufTx” initialized? Where is the library that defines them (please list the *C file they come from).****
+ #### **Q2] How are “cbufRx” and “cbufTx” initialized? Where is the library that defines them (please list the *C file they come from).****
 
    They are initialized in your `InitializeSerialConsole()` function using:
 
@@ -158,7 +158,7 @@ in the `.h` file, the type is probably **forward-declared** like this:
 
 ![alt text](Images/A07G/A07G_S3.png)
 
-**Q3] Where are the character arrays where the RX and TX characters are being stored at the end? Please mention their name and size. Tip: Please note cBufRx and cBufTx are structures.**
+### **Q3] Where are the character arrays where the RX and TX characters are being stored at the end? Please mention their name and size. Tip: Please note cBufRx and cBufTx are structures.**
 
 ![alt text](Images/A07G/A07G_S4.png)
 
@@ -171,7 +171,7 @@ in the `.h` file, the type is probably **forward-declared** like this:
 | RX Storage | rxCharacterBuffer | 512 bytes | cbufRx  | SerialConsole.c |
 | TX Storage | txCharacterBuffer | 512 bytes | cbufTx  | SerialConsole.c |
 
-**Q4] Where are the interrupts for UART character received and UART character sent defined?**
+### **Q4] Where are the interrupts for UART character received and UART character sent defined?**
 
 The Callback declarations:
 These two functions are the ISR callbacks that run when a UART character is sent or received.
@@ -185,7 +185,7 @@ These two functions are the ISR callbacks that run when a UART character is sent
 | UART Character Received    | usart_read_callback()  | When a character is received over UART    | SerialConsole.c → configure_usart_callbacks() |
 | UART Character Transmitted | usart_write_callback() | When a character is finished transmitting | SerialConsole.c → configure_usart_callbacks() |
 
-**Q5] What are the callback functions that are called when:**
+### **Q5] What are the callback functions that are called when:**
 
 1. **A character is received? (RX)**
 2. **A character has been sent? (TX)**
@@ -201,9 +201,9 @@ These two functions are the ISR callbacks that run when a UART character is sent
 
 ![alt text](Images/A07G/A07G_S9.png)
 
-**Q6] Explain what is being done on each of these two callbacks and how they relate to the cbufRx and cbufTx buffers.**
+### **Q6] Explain what is being done on each of these two callbacks and how they relate to the cbufRx and cbufTx buffers.**
 
-1. usart_read_callback() – Character Received (RX)
+**1. usart_read_callback() – Character Received (RX)**
 
 Triggered when: A new character arrives from the UART peripheral (SERCOM4).
 
@@ -213,7 +213,7 @@ Relation to cbufRx: It calls a function like circular_buf_put(cbufRx, latestRx);
 
 Purpose: Ensures every character received from the UART is captured in the circular buffer. Makes data available for higher-level application logic (e.g., command parser).
 
-2. usart_write_callback() – Character Sent (TX)
+**2. usart_write_callback() – Character Sent (TX)**
 
 Triggered when: The USART finishes transmitting a character.
 
@@ -223,15 +223,15 @@ Relation to cbufTx: It calls something like circular_buf_get(cbufTx, &latestTx);
 
 Purpose: Maintains a steady stream of outgoing data. Allows asynchronous, non-blocking UART transmission using buffer queuing.
 
-**Q7] Draw a diagram that explains the program flow for UART receive – starting with the user typing a character and ending with how that characters ends up in the circular buffer “cbufRx”. Please make reference to specific functions in the starter code.**
+### **Q7] Draw a diagram that explains the program flow for UART receive – starting with the user typing a character and ending with how that characters ends up in the circular buffer “cbufRx”. Please make reference to specific functions in the starter code.**
 
 ![alt text](Images/A07G/A07G_S26.jpeg)
 
-**Q8] Draw a diagram that explains the program flow for the UART transmission – starting from a string added by the program to the circular buffer “cbufTx” and ending on characters being shown on the screen of a PC (On Teraterm, for example). Please make reference to specific functions in the starter code.**
+### **Q8] Draw a diagram that explains the program flow for the UART transmission – starting from a string added by the program to the circular buffer “cbufTx” and ending on characters being shown on the screen of a PC (On Teraterm, for example). Please make reference to specific functions in the starter code.**
 
 ![alt text](Images/A07G/A07G_S27.jpeg)
 
-**Q9] What is done on the function “startStasks()” in main.c? How many threads are started?**
+### **Q9] What is done on the function “startStasks()” in main.c? How many threads are started?**
 
 The `StartTasks()` function **initializes application-level FreeRTOS tasks** — specifically, **one CLI (Command Line Interface) task** using `xTaskCreate()`.
 
@@ -245,15 +245,15 @@ The `StartTasks()` function **initializes application-level FreeRTOS tasks** —
 
 ![alt text](Images/A07G/A07G_S10.png)
 
-### **3. Debug Logger Module**
+## **3. Debug Logger Module**
 
 Made necessary changes in the code. (in SerialConsole.c)
 
 ![alt text](Images/A07G/A07G_S11.png)
 
-### 4. Wiretap that Convo!
+## 4. Wiretap that Convo!
 
-**Q1] What nets must you attach the logic analyzer to? Check how the firmware sets up the UART in SerialConsole.c**
+### **Q1] What nets must you attach the logic analyzer to? Check how the firmware sets up the UART in SerialConsole.c**
 
 ![alt text](Images/A07G/A07G_S12.png)
 
@@ -271,7 +271,7 @@ Therefore, you must attach the logic analyzer to:
 * **PB11** → UART RX
 * **GND** → A ground pin on the board
 
-**Q2] Where on the circuit board can you attach / solder to?**
+### **Q2] Where on the circuit board can you attach / solder to?**
 
 ![alt text](Images/A07G/A07G_S14.png)
 
@@ -280,7 +280,7 @@ Therefore, you must attach the logic analyzer to:
 | Yellow     | PB10                | UART TX (SERCOM4 PAD2) | Captures transmitted UART data |
 | Black      | GND                 | Ground                 | Connect to GND                 |
 
-**Q3] What are critical settings for the logic analyzer?**
+### **Q3] What are critical settings for the logic analyzer?**
 
 ![alt text](Images/A07G/A07G_S15.png)
 
@@ -296,9 +296,9 @@ Therefore, you must attach the logic analyzer to:
 
 ## [.sal file of A07_T15](Images/A07G/A07G_T15.sal)
 
-### 5. Complete the CLI
+## 5. Complete the CLI
 
-### 6. Add CLI Commands
+## 6. Add CLI Commands
 
 Updated Code with necessary doxygen comments and attaching necessary screenshots here
 

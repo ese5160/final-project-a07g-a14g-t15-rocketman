@@ -188,7 +188,7 @@ Purpose: Maintains a steady stream of outgoing data. Allows asynchronous, non-bl
 
 **Q8] Draw a diagram that explains the program flow for the UART transmission – starting from a string added by the program to the circular buffer “cbufTx” and ending on characters being shown on the screen of a PC (On Teraterm, for example). Please make reference to specific functions in the starter code.**
 
-
+![alt text](Images/A07G/A07G_S27.jpeg)
 
 **Q9] What is done on the function “startStasks()” in main.c? How many threads are started?**
 
